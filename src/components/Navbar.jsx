@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const links = ["Home", "About", "Skills", "Projects", "Research", "Contact"];
+const links = [
+  "Home",
+  "About",
+  "Skills",
+  "Projects",
+  "Research",
+  "Contact",
+];
 
 export default function Navbar() {
   const [active, setActive] = useState("home");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const sections = links
-      .map((link) => document.getElementById(link.toLowerCase()))
-      .filter(Boolean);
+    const sections = document.querySelectorAll("section[id]");
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -21,7 +26,7 @@ export default function Navbar() {
         });
       },
       {
-        rootMargin: "-40% 0px -50% 0px",
+        threshold: 0.55,
       }
     );
 
@@ -32,9 +37,21 @@ export default function Navbar() {
 
   const handleClick = (e, id) => {
     e.preventDefault();
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-    });
+
+    setActive(id);
+
+    const section = document.getElementById(id);
+
+    if (section) {
+      const y =
+        section.getBoundingClientRect().top + window.pageYOffset - 70;
+
+      window.scrollTo({
+        top: y,
+        behavior: "smooth",
+      });
+    }
+
     setOpen(false);
   };
 
@@ -72,19 +89,18 @@ export default function Navbar() {
           </span>
         </a>
 
-        {/* Desktop Menu */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex gap-10">
           {links.map((link) => {
             const id = link.toLowerCase();
-            const isActive = active === id;
 
             return (
               <a
-                key={link}
+                key={id}
                 href={`#${id}`}
                 onClick={(e) => handleClick(e, id)}
-                className={`text-sm uppercase tracking-wider transition-colors ${
-                  isActive
+                className={`uppercase text-sm tracking-wider transition-all duration-300 ${
+                  active === id
                     ? "text-cyan-400 border-b-2 border-cyan-400 pb-1"
                     : "text-gray-400 hover:text-white"
                 }`}
@@ -99,7 +115,6 @@ export default function Navbar() {
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden text-white"
-          aria-label="Toggle menu"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -107,16 +122,20 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden flex flex-col bg-[#050816]/95 border-t border-white/5 px-8 py-4 gap-4">
+        <div className="md:hidden bg-[#050816]/95 border-t border-white/10 flex flex-col px-8 py-5 gap-5">
           {links.map((link) => {
             const id = link.toLowerCase();
 
             return (
               <a
-                key={link}
+                key={id}
                 href={`#${id}`}
                 onClick={(e) => handleClick(e, id)}
-                className="text-sm uppercase tracking-wider text-gray-300 hover:text-cyan-400"
+                className={`uppercase tracking-wider transition ${
+                  active === id
+                    ? "text-cyan-400"
+                    : "text-gray-300 hover:text-white"
+                }`}
               >
                 {link}
               </a>
