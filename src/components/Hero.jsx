@@ -4,7 +4,7 @@ import HeroRight from "./HeroRight";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-[#050816] overflow-hidden">
+   <section id="home" className="relative min-h-screen bg-[#050816] overflow-hidden scroll-mt-20">
       <Navbar />
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(139,92,246,.12),transparent_50%)]" />

@@ -1,78 +1,97 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Download, Mouse } from "lucide-react";
+import { Code2, ExternalLink } from "lucide-react";
+import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading";
 
-export default function HeroLeft() {
-  const tags = ["AI ENGINEER", "BIOINFORMATICS", "MACHINE LEARNING", "COMPUTER VISION"];
+const projects = [
+  {
+    title: "NCBI Gene Data Pipeline",
+    desc: "Automated pipeline fetching Alzheimer's-related gene records via Biopython's Entrez API. Parses XML/GenBank data into analysis-ready CSV as the first stage of a drug-repurposing pipeline.",
+    tech: ["Python", "Biopython", "NCBI Entrez API", "MongoDB"],
+    link: "https://github.com/AYUSHBEINGCREATIVE/ncbi-gene-pipeline",
+  },
+  {
+    title: "Rosalind Bioinformatics Problem Set",
+    desc: "Collection of Rosalind bioinformatics solutions including DNA string operations, GC content, Hamming distance, RNA transcription, and complementary strands.",
+    tech: ["Python", "Algorithms", "Sequence Analysis"],
+    link: "https://github.com/AYUSHBEINGCREATIVE/rosalind-solutions",
+    status: "ACTIVE",
+  },
+  {
+    title: "Real-Time Data Dashboard",
+    desc: "Live pipeline connecting MongoDB with Plotly Dash and Power BI featuring KPI cards, interactive charts, and filterable tables.",
+    tech: ["Python", "MongoDB", "Plotly Dash", "Power BI"],
+  },
+  {
+    title: "Medicine Supply Chain Optimization",
+    desc: "Smart healthcare logistics platform for counterfeit detection, inventory prediction, and cold-chain monitoring.",
+    tech: ["Healthcare", "Software", "Supply Chain"],
+    status: "SIH 2024",
+  },
+];
 
+export default function Projects() {
   return (
-    <div className="relative z-20 flex gap-6">
-      <div className="hidden md:flex flex-col items-center pt-4">
-        <span className="text-cyan-400 text-xs font-mono">01</span>
-        <div className="w-px flex-1 bg-gradient-to-b from-cyan-400/60 to-transparent mt-3" />
+    <section
+      id="projects"
+      className="relative py-32 bg-[#050816] scroll-mt-20"
+    >
+      <div className="max-w-6xl mx-auto px-8">
+        <SectionHeading
+          tag="Projects"
+          title="Built &"
+          accent="Shipped"
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((project, index) => (
+            <Reveal key={project.title} delay={index * 0.08}>
+              <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-cyan-400/40 hover:-translate-y-1 transition-all duration-300">
+
+                <div className="flex items-start justify-between mb-4">
+                  <h3 className="text-white text-xl font-semibold">
+                    {project.title}
+                  </h3>
+
+                  {project.status && (
+                    <span className="text-[10px] tracking-wider text-cyan-400 border border-cyan-400/30 rounded-full px-2 py-1">
+                      {project.status}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-gray-400 text-sm leading-7 mb-6">
+                  {project.desc}
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tech.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 rounded-full text-xs bg-violet-500/10 text-violet-300"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                {project.link && (
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition"
+                  >
+                    <Code2 size={16} />
+                    <span>View on GitHub</span>
+                    <ExternalLink size={14} />
+                  </a>
+                )}
+
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
-
-      <div>
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="uppercase tracking-[6px] text-cyan-400 text-xs font-medium mb-6"
-        >
-          Engineering Intelligence
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="text-6xl md:text-7xl font-bold text-white leading-[0.95]"
-        >
-          FOR
-        </motion.h1>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-6xl md:text-7xl font-bold leading-[0.95] bg-gradient-to-r from-cyan-400 via-sky-400 to-violet-500 bg-clip-text text-transparent"
-        >
-          BIOLOGY.
-        </motion.h1>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 space-y-1 text-gray-400 text-sm tracking-wider"
-        >
-          {tags.map((t) => <p key={t}>{t}</p>)}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.65 }}
-          className="mt-10 flex flex-wrap gap-4"
-        >
-          <button className="flex items-center gap-2 rounded-lg bg-cyan-400 px-6 py-3 text-sm font-semibold text-black tracking-wide shadow-[0_0_25px_rgba(34,211,238,.5)] hover:scale-105 transition-transform">
-            EXPLORE RESEARCH <ArrowRight size={16} />
-          </button>
-
-          <button className="flex items-center gap-2 rounded-lg border border-white/15 px-6 py-3 text-sm font-semibold text-white tracking-wide hover:border-cyan-400 hover:text-cyan-400 transition-colors">
-            DOWNLOAD CV <Download size={16} />
-          </button>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="mt-16 flex items-center gap-2 text-gray-500 text-xs tracking-wider"
-        >
-          <Mouse size={16} className="text-cyan-400" />
-          SCROLL DOWN
-        </motion.div>
-      </div>
-    </div>
+    </section>
   );
 }
