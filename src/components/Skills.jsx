@@ -14,14 +14,21 @@ const groups = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-32 bg-[#050816] scroll-mt-20">
-      <div className="max-w-6xl mx-auto px-8">
+    <section id="skills" className="relative py-32 bg-[#04040a] scroll-mt-20 overflow-hidden">
+      <img
+        src="/skills-network.png"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover opacity-[0.35] pointer-events-none"
+      />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-8">
         <SectionHeading tag="Skills & Domains" title="Technical" accent="Arsenal" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {groups.map((g, i) => (
             <Reveal key={g.title} delay={i * 0.06}>
-              <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-6 hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-colors duration-300">
+              <div className="h-full rounded-2xl border border-white/10 bg-[#050a14]/70 backdrop-blur-sm p-6 hover:border-cyan-400/40 hover:bg-cyan-400/5 transition-colors duration-300">
                 <h3 className="text-cyan-400 text-sm tracking-[2px] uppercase mb-4">{g.title}</h3>
                 <ul className="space-y-2">
                   {g.items.map((it) => (
