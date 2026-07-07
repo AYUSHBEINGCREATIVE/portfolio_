@@ -1,56 +1,73 @@
-import { Mail, Phone, Code2 } from "lucide-react";
+import { Mail, Code2, MapPin } from "lucide-react";
 import Reveal from "./Reveal";
-import SectionHeading from "./SectionHeading";
 
 export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="relative py-32 bg-[#050816] scroll-mt-20"
-    >
-      <div className="max-w-3xl mx-auto px-8 text-center">
-        <SectionHeading
-          tag="Contact"
-          title="Let's"
-          accent="Talk"
-        />
-
+    <section id="contact" className="relative py-32 bg-[#04040a] scroll-mt-20">
+      <div className="max-w-5xl mx-auto px-8 text-center">
         <Reveal>
-          <p className="text-gray-400 mb-12">
-            Open to internships, research collaborations, and anything at the
-            intersection of AI and Biology.
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            LET&apos;S BUILD SOMETHING
+          </h2>
+          <p className="text-gray-400 mb-16 max-w-xl mx-auto">
+            Open to research collaborations, AI/biotech opportunities, and
+            interesting projects.
           </p>
+        </Reveal>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <Reveal delay={0.05}>
             <a
               href="mailto:ayush.dhote.mitbio@gmail.com"
-              className="flex items-center justify-center gap-2 rounded-xl border border-cyan-400/30 bg-cyan-400/10 px-6 py-4 text-cyan-300 hover:bg-cyan-400/20 transition-colors"
+              className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-8 hover:border-cyan-400/40 transition-colors h-full"
             >
-              <Mail size={18} />
-              ayush.dhote.mitbio@gmail.com
+              <div className="w-11 h-11 rounded-full bg-cyan-400/10 flex items-center justify-center">
+                <Mail className="text-cyan-400" size={20} />
+              </div>
+              <p className="text-gray-500 text-xs uppercase tracking-wider">
+                Email
+              </p>
+              <p className="text-white text-sm break-all">
+                ayush.dhote.mitbio@gmail.com
+              </p>
             </a>
+          </Reveal>
 
-            <a
-              href="tel:+919890381693"
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/15 px-6 py-4 text-gray-300 hover:border-white/40 transition-colors"
-            >
-              <Phone size={18} />
-              +91 9890381693
-            </a>
-
+          <Reveal delay={0.1}>
             <a
               href="https://github.com/AYUSHBEINGCREATIVE"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-2 rounded-xl border border-white/15 px-6 py-4 text-gray-300 hover:border-white/40 transition-colors"
+              className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-8 hover:border-cyan-400/40 transition-colors h-full"
             >
-              <Code2 size={18} />
-              AYUSHBEINGCREATIVE
+              <div className="w-11 h-11 rounded-full bg-cyan-400/10 flex items-center justify-center">
+                <Code2 className="text-cyan-400" size={20} />
+              </div>
+              <p className="text-gray-500 text-xs uppercase tracking-wider">
+                GitHub
+              </p>
+              <p className="text-white text-sm">
+                github.com/AYUSHBEINGCREATIVE
+              </p>
             </a>
+          </Reveal>
 
-          </div>
-        </Reveal>
+          <Reveal delay={0.15}>
+            <div className="flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-8 h-full">
+              <div className="w-11 h-11 rounded-full bg-cyan-400/10 flex items-center justify-center">
+                <MapPin className="text-cyan-400" size={20} />
+              </div>
+              <p className="text-gray-500 text-xs uppercase tracking-wider">
+                Location
+              </p>
+              <p className="text-white text-sm">Pune, India</p>
+            </div>
+          </Reveal>
+        </div>
+
+        <p className="text-gray-600 text-xs mt-16">
+          © 2026 Ayush Dhote · MIT ADT University · Built with precision.
+        </p>
       </div>
     </section>
   );

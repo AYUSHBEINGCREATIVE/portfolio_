@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const links = [
-  "Home",
-  "About",
-  "Skills",
-  "Projects",
-  "Research",
-  "Contact",
-];
+const links = ["Home", "About", "Skills", "Projects", "Research", "Contact"];
 
 export default function Navbar() {
   const [active, setActive] = useState("home");
@@ -25,9 +18,7 @@ export default function Navbar() {
           }
         });
       },
-      {
-        threshold: 0.55,
-      }
+      { threshold: 0.55 }
     );
 
     sections.forEach((section) => observer.observe(section));
@@ -37,14 +28,15 @@ export default function Navbar() {
 
   const handleClick = (e, id) => {
     e.preventDefault();
-
     setActive(id);
 
     const section = document.getElementById(id);
 
     if (section) {
       const y =
-        section.getBoundingClientRect().top + window.pageYOffset - 70;
+        section.getBoundingClientRect().top +
+        window.pageYOffset -
+        70;
 
       window.scrollTo({
         top: y,
@@ -85,12 +77,12 @@ export default function Navbar() {
           </svg>
 
           <span className="text-white font-semibold tracking-wide text-sm">
-            AYUSH OS
+            AYUSH DHOTE
           </span>
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex gap-10">
+        <div className="hidden md:flex items-center gap-10">
           {links.map((link) => {
             const id = link.toLowerCase();
 
@@ -111,10 +103,20 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Mobile Button */}
+        {/* Desktop Button */}
+        <a
+          href="#contact"
+          onClick={(e) => handleClick(e, "contact")}
+          className="hidden md:flex items-center gap-2 rounded-full border border-cyan-400/40 px-5 py-2 text-xs uppercase tracking-wider text-cyan-400 hover:bg-cyan-400 hover:text-black transition-colors"
+        >
+          Let's Connect →
+        </a>
+
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden text-white"
+          aria-label="Toggle menu"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -141,6 +143,14 @@ export default function Navbar() {
               </a>
             );
           })}
+
+          <a
+            href="#contact"
+            onClick={(e) => handleClick(e, "contact")}
+            className="mt-2 flex items-center justify-center gap-2 rounded-full border border-cyan-400/40 px-5 py-2 text-xs uppercase tracking-wider text-cyan-400"
+          >
+            Let's Connect →
+          </a>
         </div>
       )}
     </nav>

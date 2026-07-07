@@ -1,3 +1,4 @@
+import ScrollProgress from "./components/ScrollProgress";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -12,6 +13,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <div className="bg-[#050816]">
+        <ScrollProgress />
         <Hero />
         <About />
         <Skills />

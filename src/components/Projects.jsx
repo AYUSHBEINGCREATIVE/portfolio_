@@ -1,93 +1,141 @@
-import { Code2, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Code2, ExternalLink, Star, GitFork } from "lucide-react";
 import Reveal from "./Reveal";
-import SectionHeading from "./SectionHeading";
 
-const projects = [
-  {
-    title: "NCBI Gene Data Pipeline",
-    desc: "Automated pipeline fetching Alzheimer's-related gene records via Biopython's Entrez API. Parses XML/GenBank data into analysis-ready CSV as the first stage of a drug-repurposing pipeline.",
-    tech: ["Python", "Biopython", "NCBI Entrez API", "MongoDB"],
-    link: "https://github.com/AYUSHBEINGCREATIVE/ncbi-gene-pipeline",
-  },
-  {
-    title: "Rosalind Bioinformatics Problem Set",
-    desc: "Collection of Rosalind bioinformatics solutions including DNA string operations, GC content, Hamming distance, RNA transcription, and complementary strands.",
-    tech: ["Python", "Algorithms", "Sequence Analysis"],
-    link: "https://github.com/AYUSHBEINGCREATIVE/rosalind-solutions",
-    status: "ACTIVE",
-  },
-  {
-    title: "Real-Time Data Dashboard",
-    desc: "Live pipeline connecting MongoDB with Plotly Dash and Power BI featuring KPI cards, interactive charts, and filterable tables.",
-    tech: ["Python", "MongoDB", "Plotly Dash", "Power BI"],
-  },
-  {
-    title: "Medicine Supply Chain Optimization",
-    desc: "Smart healthcare logistics platform for counterfeit detection, inventory prediction, and cold-chain monitoring.",
-    tech: ["Healthcare", "Software", "Supply Chain"],
-    status: "SIH 2024",
-  },
-];
+const GITHUB_USERNAME = "AYUSHBEINGCREATIVE";
+const FEATURE_TOPIC = "portfolio";
 
 export default function Projects() {
+  const [repos, setRepos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchRepos() {
+      try {
+        const res = await fetch(
+          `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&sort=updated`,
+          {
+            headers: {
+              Accept: "application/vnd.github.mercy-preview+json",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch repos");
+
+        const data = await res.json();
+
+        const featured = data.filter(
+          (repo) => !repo.fork && repo.topics?.includes(FEATURE_TOPIC)
+        );
+
+        setRepos(featured);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchRepos();
+  }, []);
+
   return (
     <section
       id="projects"
-      className="relative py-32 bg-[#050816] scroll-mt-20"
+      className="relative py-32 bg-[#04040a] scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto px-8">
-        <SectionHeading
-          tag="Projects"
-          title="Built &"
-          accent="Shipped"
-        />
+        <Reveal>
+          <p className="text-cyan-400 text-xs tracking-[4px] uppercase mb-4 text-center">
+            ● Projects
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-16">
+            Featured Work
+          </h2>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects.map((project, index) => (
-            <Reveal key={project.title} delay={index * 0.08}>
-              <div className="h-full rounded-2xl border border-white/10 bg-white/[0.02] p-7 hover:border-cyan-400/40 hover:-translate-y-1 transition-all duration-300">
+        {loading && (
+          <p className="text-gray-500 text-center">Loading projects...</p>
+        )}
 
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-white text-xl font-semibold">
-                    {project.title}
-                  </h3>
+        {error && (
+          <p className="text-red-400 text-center">
+            Couldn't load projects: {error}
+          </p>
+        )}
 
-                  {project.status && (
-                    <span className="text-[10px] tracking-wider text-cyan-400 border border-cyan-400/30 rounded-full px-2 py-1">
-                      {project.status}
+        {!loading && !error && repos.length === 0 && (
+          <p className="text-gray-500 text-center">
+            No featured repos yet — tag a GitHub repo with the
+            <span className="text-cyan-400"> "portfolio" </span>
+            topic to show it here.
+          </p>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {repos.map((repo, i) => (
+            <Reveal key={repo.id} delay={i * 0.06}>
+              <motion.div
+                whileHover={{ y: -6 }}
+                className="rounded-2xl border border-white/10 bg-white/[0.02] p-6 h-full flex flex-col hover:border-cyan-400/40 transition-colors"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <Code2 className="text-cyan-400" size={20} />
+
+                  {repo.language && (
+                    <span className="text-[10px] uppercase tracking-wider text-gray-500 border border-white/10 rounded-full px-2 py-0.5">
+                      {repo.language}
                     </span>
                   )}
                 </div>
 
-                <p className="text-gray-400 text-sm leading-7 mb-6">
-                  {project.desc}
+                <h3 className="text-white font-semibold text-lg mb-2">
+                  {repo.name.replace(/-/g, " ")}
+                </h3>
+
+                <p className="text-gray-400 text-sm leading-relaxed flex-1">
+                  {repo.description || "No description provided."}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 rounded-full text-xs bg-violet-500/10 text-violet-300"
-                    >
-                      {tech}
-                    </span>
-                  ))}
+                <div className="flex items-center gap-4 mt-4 text-gray-500 text-xs">
+                  <span className="flex items-center gap-1">
+                    <Star size={12} />
+                    {repo.stargazers_count}
+                  </span>
+
+                  <span className="flex items-center gap-1">
+                    <GitFork size={12} />
+                    {repo.forks_count}
+                  </span>
                 </div>
 
-                {project.link && (
+                <div className="flex gap-3 mt-5">
                   <a
-                    href={project.link}
+                    href={repo.html_url}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition"
+                    rel="noreferrer"
+                    className="flex items-center gap-1 text-xs text-gray-300 hover:text-cyan-400 transition-colors"
                   >
-                    <Code2 size={16} />
-                    <span>View on GitHub</span>
-                    <ExternalLink size={14} />
+                    <Code2 size={14} />
+                    Code
                   </a>
-                )}
 
-              </div>
+                  {repo.homepage && (
+                    <a
+                      href={repo.homepage}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-1 text-xs text-gray-300 hover:text-cyan-400 transition-colors"
+                    >
+                      <ExternalLink size={14} />
+                      Live
+                    </a>
+                  )}
+                </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>

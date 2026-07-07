@@ -16,7 +16,7 @@ export default function Skills() {
   return (
     <section id="skills" className="relative py-32 bg-[#050816] scroll-mt-20">
       <div className="max-w-6xl mx-auto px-8">
-        <SectionHeading tag="Skills & Domains" title="Tools I" accent="Work With" />
+        <SectionHeading tag="Skills & Domains" title="Technical" accent="Arsenal" />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {groups.map((g, i) => (
